@@ -3,7 +3,6 @@ import Spotify from "next-auth/providers/spotify";
 import { SPOTIFY_SCOPES } from "./lib/spotify";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  secret: process.env.AUTH_SECRET,
   providers: [
     Spotify({
       clientId: process.env.AUTH_SPOTIFY_ID,
@@ -11,9 +10,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       authorization: `https://accounts.spotify.com/authorize?scope=${SPOTIFY_SCOPES}`,
     }),
   ],
-  trustHost: true,
-  skipCSRFCheck: true,
-  debug: true, // Enable debug logs
+  secret: process.env.AUTH_SECRET,
   callbacks: {
     async jwt({ token, account, user }) {
       if (account && user) {
